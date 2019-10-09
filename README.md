@@ -7,7 +7,8 @@ A lib where I put my custom matchers for [Gomega](https://onsi.github.io/gomega/
 Checks actual value is within expectationn array.
 
 ```
-Ω(RandomMonth()).Should(BelongTo("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+Ω(RandomMonth()).Should(BelongTo("Jan", "Feb", "Mar", "Apr", "May",
+  "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
 
 ```
 
