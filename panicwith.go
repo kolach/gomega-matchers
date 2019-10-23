@@ -50,12 +50,14 @@ func (matcher *panicWithMatcher) Match(f interface{}) (success bool, err error) 
 
 // FailureMessage returns message on matcher failure
 func (matcher *panicWithMatcher) FailureMessage(actual interface{}) (message string) {
-	return format.Message(actual, "to panic with\n%s\nbut panicked with\n%s",
-		format.Object(matcher.expect, 1), format.Object(matcher.actual, 1))
+	return fmt.Sprintf("Expect to panic with\n\t%+v\nbut panicked with\n\t%+v", matcher.expect, matcher.actual)
+	// return format.Message(actual, "to panic with\n%s\nbut panicked with\n%s",
+	// 	format.Object(matcher.expect, 1), format.Object(matcher.actual, 1))
 }
 
 // NegatedFailureMessage returns mesage on negated case
 func (matcher *panicWithMatcher) NegatedFailureMessage(actual interface{}) (message string) {
-	return format.Message(actual, "not to panic with\n%s\nbut panicked with\n%s",
-		format.Object(matcher.expect, 1), format.Object(matcher.actual, 1))
+	return fmt.Sprintf("Expect not to panic with\n\t%+v\nbut it did", matcher.expect)
+	// return format.Message(actual, "not to panic with\n%s\nbut panicked with\n%s",
+	// 	format.Object(matcher.expect, 1), format.Object(matcher.actual, 1))
 }

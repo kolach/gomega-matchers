@@ -19,6 +19,16 @@ var _ = Describe("PanicWith", func() {
 		Ω(m.Match(func() { panic("foo") })).To(BeTrue())
 	})
 
+	It("should return correct failure message", func() {
+		m.Match(func() { panic("bar") })
+		Ω(m.FailureMessage(nil)).To(Equal("Expect to panic with\n\tfoo\nbut panicked with\n\tbar"))
+	})
+
+	It("should return correct negate failure message", func() {
+		m.Match(func() { panic("foo") })
+		Ω(m.NegatedFailureMessage(nil)).To(Equal("Expect not to panic with\n\tfoo\nbut it did"))
+	})
+
 	It("should work", func() {
 		Ω(func() { panic("foo") }).Should(PanicWith("foo"))
 		Ω(func() { panic("bar") }).ShouldNot(PanicWith("foo"))
