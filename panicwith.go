@@ -14,6 +14,11 @@ func PanicWith(expect interface{}, cmpOpts ...cmp.Option) types.GomegaMatcher {
 	return &panicWithMatcher{expect: expect, cmpOpts: cmpOpts}
 }
 
+// PanicWithError expects panic happens with error object
+func PanicWithError(err interface{}) types.GomegaMatcher {
+	return PanicWith(err, cmp.Comparer(func(x, y error) bool { return x.Error() == y.Error() }))
+}
+
 // panicWithMatcher checks panic happens with certain expected data
 type panicWithMatcher struct {
 	actual  interface{}
@@ -51,13 +56,9 @@ func (matcher *panicWithMatcher) Match(f interface{}) (success bool, err error) 
 // FailureMessage returns message on matcher failure
 func (matcher *panicWithMatcher) FailureMessage(actual interface{}) (message string) {
 	return fmt.Sprintf("Expect to panic with\n\t%+v\nbut panicked with\n\t%+v", matcher.expect, matcher.actual)
-	// return format.Message(actual, "to panic with\n%s\nbut panicked with\n%s",
-	// 	format.Object(matcher.expect, 1), format.Object(matcher.actual, 1))
 }
 
 // NegatedFailureMessage returns mesage on negated case
 func (matcher *panicWithMatcher) NegatedFailureMessage(actual interface{}) (message string) {
 	return fmt.Sprintf("Expect not to panic with\n\t%+v\nbut it did", matcher.expect)
-	// return format.Message(actual, "not to panic with\n%s\nbut panicked with\n%s",
-	// 	format.Object(matcher.expect, 1), format.Object(matcher.actual, 1))
 }
