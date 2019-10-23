@@ -54,3 +54,16 @@ It("should panic with foo", func() {
   Ω(func() { panic("foo") }).Should(PanicWith("foo"))
 })
 ```
+
+### PanicWithError
+
+The second parameter of `PanicWith` is a list of comporator options.
+Here is an excample of how to write a matcher that checks if panic happened because of certain error:
+
+```go
+func PanicWithError(err interface{}) types.GomegaMatcher {
+	return PanicWith(err, cmp.Comparer(func(x, y error) bool { return x.Error() == y.Error() }))
+}
+```
+
+

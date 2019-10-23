@@ -15,10 +15,8 @@ func PanicWith(expect interface{}, cmpOpts ...cmp.Option) types.GomegaMatcher {
 }
 
 // PanicWithError expects panic happens with error object
-func PanicWithError(err error) types.GomegaMatcher {
-	return PanicWith(err, cmp.Comparer(func(x, y error) bool {
-		return x.Error() == y.Error()
-	}))
+func PanicWithError(err interface{}) types.GomegaMatcher {
+	return PanicWith(err, cmp.Comparer(func(x, y error) bool { return x.Error() == y.Error() }))
 }
 
 // panicWithMatcher checks panic happens with certain expected data
