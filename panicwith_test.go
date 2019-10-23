@@ -4,6 +4,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/types"
+	"github.com/pkg/errors"
 
 	. "github.com/kolach/gomega-matchers"
 )
@@ -32,5 +33,14 @@ var _ = Describe("PanicWith", func() {
 	It("should work", func() {
 		Ω(func() { panic("foo") }).Should(PanicWith("foo"))
 		Ω(func() { panic("bar") }).ShouldNot(PanicWith("foo"))
+	})
+})
+
+var _ = Describe("PanicWithError", func() {
+	var fooErr = errors.New("foo")
+
+	It("should check with what panic happens", func() {
+		m := PanicWithError(fooErr)
+		Ω(m.Match(func() { panic(errors.New("foo")) })).To(BeTrue())
 	})
 })
